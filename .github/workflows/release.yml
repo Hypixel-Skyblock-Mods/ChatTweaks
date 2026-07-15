@@ -1,4 +1,4 @@
-name: Release
+name: Push to Modrinth
 
 on:
   push:
@@ -10,6 +10,7 @@ permissions:
 
 jobs:
   release:
+    name: Push to Modrinth
     runs-on: [self-hosted, Linux, X64, wicked-game-01, chattweaks]
     environment: release
     env:
@@ -68,7 +69,7 @@ jobs:
           set -euo pipefail
 
           versions_file="$RUNNER_TEMP/modrinth-versions.json"
-          curl --fail-with-body --silent --show-error \
+          curl --fail --silent --show-error \
             --header "Authorization: $MODRINTH_TOKEN" \
             --header "User-Agent: Hypixel-Skyblock-Mods/ChatTweaks GitHub Actions" \
             "https://api.modrinth.com/v2/project/$MODRINTH_PROJECT_ID/version" \
