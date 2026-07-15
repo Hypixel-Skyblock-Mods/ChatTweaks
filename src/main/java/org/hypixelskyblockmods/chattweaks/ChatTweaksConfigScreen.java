@@ -76,7 +76,7 @@ public final class ChatTweaksConfigScreen {
 			name = "Update Check",
 			desc = "Check GitHub Releases again for a newer stable ChatTweaks version."
 		)
-		@ConfigEditorButton(buttonText = "Check again")
+		@ConfigEditorButton(buttonText = "Check")
 		public transient Runnable checkForUpdates = () -> ChatTweaksUpdateChecker.refresh(true);
 	}
 
