@@ -38,4 +38,5 @@ each JAR.
 
 ## License
 
-ChatTweaks is available under the CC0-1.0 license.
+ChatTweaks is source-available. Official, unmodified releases may be used for
+personal, non-commercial purposes; see `LICENSE` for the full terms.
