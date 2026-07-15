@@ -8,6 +8,7 @@ import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.Identifier;
 import org.hypixelskyblockmods.chattweaks.mixin.ChatComponentAccessor;
+import org.hypixelskyblockmods.chattweaks.platform.ChatCompat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -54,7 +55,7 @@ public final class ChatTweaksClient implements ClientModInitializer {
 		ClientTickEvents.END_CLIENT_TICK.register(minecraft -> {
 			boolean peeking = isPeeking();
 			if (wasPeeking && !peeking && minecraft.gui != null) {
-				minecraft.gui.getChat().resetChatScroll();
+				ChatCompat.chat(minecraft).resetChatScroll();
 			}
 			wasPeeking = peeking;
 		});
@@ -68,8 +69,7 @@ public final class ChatTweaksClient implements ClientModInitializer {
 		Minecraft minecraft = Minecraft.getInstance();
 		return chatPeekEnabled()
 			&& PEEK_CHAT.isDown()
-			&& minecraft.screen == null
-			&& minecraft.getOverlay() == null;
+			&& ChatCompat.hasNoScreenOrOverlay(minecraft);
 	}
 
 	public static boolean chatPeekEnabled() {
@@ -126,13 +126,13 @@ public final class ChatTweaksClient implements ClientModInitializer {
 		if (!enabled) {
 			Minecraft minecraft = Minecraft.getInstance();
 			if (minecraft.gui != null) {
-				ChatComponentAccessor chat = (ChatComponentAccessor) minecraft.gui.getChat();
+				ChatComponentAccessor chat = (ChatComponentAccessor) ChatCompat.chat(minecraft);
 				trimToLimit(chat.chattweaks$getAllMessages(), VANILLA_HISTORY_LIMIT);
 				trimToLimit(chat.chattweaks$getTrimmedMessages(), VANILLA_HISTORY_LIMIT);
 				while (chat.chattweaks$getRecentChat().size() > VANILLA_HISTORY_LIMIT) {
 					chat.chattweaks$getRecentChat().removeFirst();
 				}
-				minecraft.gui.getChat().rescaleChat();
+				ChatCompat.chat(minecraft).rescaleChat();
 			}
 		}
 	}

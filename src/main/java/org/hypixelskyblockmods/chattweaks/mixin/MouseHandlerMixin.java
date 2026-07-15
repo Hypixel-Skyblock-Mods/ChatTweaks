@@ -4,6 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.MouseHandler;
 import net.minecraft.util.Mth;
 import org.hypixelskyblockmods.chattweaks.ChatTweaksClient;
+import org.hypixelskyblockmods.chattweaks.platform.ChatCompat;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -27,7 +28,7 @@ public abstract class MouseHandlerMixin {
 		if (!this.minecraft.hasShiftDown()) {
 			scroll *= 7.0;
 		}
-		this.minecraft.gui.getChat().scrollChat((int) scroll);
+		ChatCompat.chat(this.minecraft).scrollChat((int) scroll);
 		ci.cancel();
 	}
 }

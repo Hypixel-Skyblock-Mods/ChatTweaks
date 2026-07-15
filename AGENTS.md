@@ -14,7 +14,7 @@ compatibility code under `src/26.1.2` and `src/26.2` when their APIs differ.
   fix.
 - Treat `gradle/targets.properties` as the source of truth for supported target
   names, Minecraft versions, and target-specific dependency coordinates.
-  `settings.gradle` includes the corresponding `versions/<target>` Gradle
+  `settings.gradle.kts` includes the corresponding `versions/<target>` Gradle
   projects from this catalog, and the release workflow consumes a manifest
   generated from the same data.
 - Keep chat behavior, configuration, commands, and other implementation shared
@@ -24,8 +24,8 @@ compatibility code under `src/26.1.2` and `src/26.2` when their APIs differ.
   classes and method contracts so shared code can use a stable compatibility
   boundary without runtime version checks.
 - Each `versions/<target>` directory is a Gradle build target, not a copy of the
-  mod. Its JAR combines `src/main`, the existing client sources/resources, and
-  the matching `src/<minecraft-version>/java` compatibility source set.
+  mod. Its JAR combines `src/main` and the matching
+  `src/<minecraft-version>/java` compatibility source set.
 - All active targets share one `mod_version` from `gradle.properties`. A release
   tag `v<mod_version>` must build every target. GitHub receives one release with
   one clearly named JAR per Minecraft version; Modrinth receives one version
@@ -35,7 +35,7 @@ compatibility code under `src/26.1.2` and `src/26.2` when their APIs differ.
 
 1. Add or remove the target and all dependency coordinates in
    `gradle/targets.properties`.
-2. Add or remove its marker build file under `versions/<target>/build.gradle`.
+2. Add or remove its marker build file under `versions/<target>/build.gradle.kts`.
 3. Add `src/<minecraft-version>/java` implementations only for APIs that differ
    from shared code. Do not copy the entire shared source tree.
 4. Run `releaseManifest` and inspect `build/release/manifest.json` when changing
