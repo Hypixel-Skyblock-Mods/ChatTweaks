@@ -1,0 +1,9 @@
+{
+	"key.chattweaks.peek_chat": "Peek Chat",
+	"key.category.chattweaks.main": "ChatTweaks",
+	"chattweaks.config.title": "ChatTweaks",
+	"chattweaks.config.extended_history": "Extended Chat History: %s",
+	"chattweaks.config.extended_history.description": "Keeps up to 1,000 chat messages instead of Minecraft's default 100.",
+	"chattweaks.config.on": "ON",
+	"chattweaks.config.off": "OFF"
+}

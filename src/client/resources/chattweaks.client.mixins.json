@@ -1,0 +1,15 @@
+{
+	"required": true,
+	"package": "org.hypixelskyblockmods.chattweaks.mixin",
+	"compatibilityLevel": "JAVA_25",
+	"client": [
+		"ChatComponentAccessor",
+		"ChatComponentMixin",
+		"GuiMixin",
+		"MouseHandlerMixin",
+		"OptionsMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}

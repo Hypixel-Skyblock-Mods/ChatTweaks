@@ -1,0 +1,31 @@
+{
+	"schemaVersion": 1,
+	"id": "chattweaks",
+	"version": "${version}",
+	"name": "ChatTweaks",
+	"description": "Peek and scroll chat without opening it, with an optional extended chat history.",
+	"authors": [
+		"alvin-cmd"
+	],
+	"contact": {
+		"homepage": "https://github.com/Hypixel-Skyblock-Mods/ChatTweaks",
+		"sources": "https://github.com/Hypixel-Skyblock-Mods/ChatTweaks",
+		"issues": "https://github.com/Hypixel-Skyblock-Mods/ChatTweaks/issues"
+	},
+	"license": "CC0-1.0",
+	"environment": "client",
+	"entrypoints": {
+		"client": [
+			"org.hypixelskyblockmods.chattweaks.ChatTweaksClient"
+		]
+	},
+	"mixins": [
+		"chattweaks.client.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.19.3",
+		"minecraft": "~26.1.2",
+		"java": ">=25",
+		"fabric-api": "*"
+	}
+}
