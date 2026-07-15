@@ -17,7 +17,9 @@ public abstract class MouseHandlerMixin {
 
 	@Inject(method = "onScroll", at = @At("HEAD"), cancellable = true)
 	private void chattweaks$scrollPeekedChat(long handle, double xOffset, double yOffset, CallbackInfo ci) {
-		if (handle != this.minecraft.getWindow().handle() || !ChatTweaksClient.isPeeking()) {
+		if (handle != this.minecraft.getWindow().handle()
+			|| !ChatTweaksClient.isPeeking()
+			|| !ChatTweaksClient.peekScrollingEnabled()) {
 			return;
 		}
 

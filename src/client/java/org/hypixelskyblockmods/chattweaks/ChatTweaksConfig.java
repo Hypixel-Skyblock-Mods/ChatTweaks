@@ -14,6 +14,8 @@ public final class ChatTweaksConfig {
 	private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 	private static final Path PATH = FabricLoader.getInstance().getConfigDir().resolve("chattweaks.json");
 
+	public boolean chatPeek = true;
+	public boolean scrollChatPeek = true;
 	public boolean extendedChatHistory = true;
 
 	public static ChatTweaksConfig load() {

@@ -66,7 +66,28 @@ public final class ChatTweaksClient implements ClientModInitializer {
 
 	public static boolean isPeeking() {
 		Minecraft minecraft = Minecraft.getInstance();
-		return PEEK_CHAT.isDown() && minecraft.screen == null && minecraft.getOverlay() == null;
+		return chatPeekEnabled()
+			&& PEEK_CHAT.isDown()
+			&& minecraft.screen == null
+			&& minecraft.getOverlay() == null;
+	}
+
+	public static boolean chatPeekEnabled() {
+		return config == null || config.chatPeek;
+	}
+
+	public static void setChatPeekEnabled(boolean enabled) {
+		config.chatPeek = enabled;
+		config.save();
+	}
+
+	public static boolean peekScrollingEnabled() {
+		return config == null || config.scrollChatPeek;
+	}
+
+	public static void setPeekScrollingEnabled(boolean enabled) {
+		config.scrollChatPeek = enabled;
+		config.save();
 	}
 
 	public static int historyLimit() {
