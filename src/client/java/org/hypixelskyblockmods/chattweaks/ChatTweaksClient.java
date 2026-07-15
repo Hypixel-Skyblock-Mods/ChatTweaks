@@ -31,6 +31,7 @@ public final class ChatTweaksClient implements ClientModInitializer {
 
 	private static ChatTweaksConfig config;
 	private static boolean wasPeeking;
+	private static boolean pendingConfigScreen;
 
 	@Override
 	public void onInitializeClient() {
@@ -38,11 +39,17 @@ public final class ChatTweaksClient implements ClientModInitializer {
 
 		ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> dispatcher.register(
 			literal("chattweaks").executes(context -> {
-				Minecraft minecraft = Minecraft.getInstance();
-				minecraft.setScreen(new ChatTweaksConfigScreen(minecraft.screen));
+				queueConfigScreen();
 				return 1;
 			})
 		));
+
+		ClientTickEvents.START_CLIENT_TICK.register(minecraft -> {
+			if (pendingConfigScreen) {
+				pendingConfigScreen = false;
+				ChatTweaksConfigScreen.open();
+			}
+		});
 
 		ClientTickEvents.END_CLIENT_TICK.register(minecraft -> {
 			boolean peeking = isPeeking();
@@ -51,6 +58,10 @@ public final class ChatTweaksClient implements ClientModInitializer {
 			}
 			wasPeeking = peeking;
 		});
+	}
+
+	public static void queueConfigScreen() {
+		pendingConfigScreen = true;
 	}
 
 	public static boolean isPeeking() {

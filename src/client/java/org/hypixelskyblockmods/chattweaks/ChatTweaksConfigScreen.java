@@ -1,58 +1,58 @@
 package org.hypixelskyblockmods.chattweaks;
 
-import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.components.MultiLineTextWidget;
-import net.minecraft.client.gui.components.StringWidget;
-import net.minecraft.client.gui.layouts.FrameLayout;
-import net.minecraft.client.gui.layouts.LinearLayout;
-import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.network.chat.CommonComponents;
-import net.minecraft.network.chat.Component;
-import org.jspecify.annotations.Nullable;
+import io.github.notenoughupdates.moulconfig.Config;
+import io.github.notenoughupdates.moulconfig.annotations.Category;
+import io.github.notenoughupdates.moulconfig.annotations.ConfigEditorBoolean;
+import io.github.notenoughupdates.moulconfig.annotations.ConfigOption;
+import io.github.notenoughupdates.moulconfig.common.IMinecraft;
+import io.github.notenoughupdates.moulconfig.common.text.StructuredText;
+import io.github.notenoughupdates.moulconfig.gui.MoulConfigEditor;
+import io.github.notenoughupdates.moulconfig.processor.ConfigProcessorDriver;
+import io.github.notenoughupdates.moulconfig.processor.MoulConfigProcessor;
 
-public final class ChatTweaksConfigScreen extends Screen {
-	private final @Nullable Screen parent;
-	private final LinearLayout layout = LinearLayout.vertical().spacing(8);
-
-	public ChatTweaksConfigScreen(@Nullable Screen parent) {
-		super(Component.translatable("chattweaks.config.title"));
-		this.parent = parent;
+public final class ChatTweaksConfigScreen {
+	private ChatTweaksConfigScreen() {
 	}
 
-	@Override
-	protected void init() {
-		super.init();
-		this.layout.defaultCellSetting().alignHorizontallyCenter();
-		this.layout.addChild(new StringWidget(this.title, this.font));
-		this.layout.addChild(
-			new MultiLineTextWidget(Component.translatable("chattweaks.config.extended_history.description"), this.font)
-				.setMaxWidth(Math.min(320, this.width - 40))
-				.setCentered(true)
-		);
-		this.layout.addChild(Button.builder(historyButtonText(), button -> {
-			ChatTweaksClient.setExtendedHistoryEnabled(!ChatTweaksClient.extendedHistoryEnabled());
-			button.setMessage(historyButtonText());
-		}).width(220).build());
-		this.layout.addChild(Button.builder(CommonComponents.GUI_DONE, button -> this.onClose()).width(220).build());
-		this.layout.visitWidgets(this::addRenderableWidget);
-		this.repositionElements();
+	public static void open() {
+		ChatTweaksMoulConfig config = new ChatTweaksMoulConfig();
+		MoulConfigProcessor<ChatTweaksMoulConfig> processor = MoulConfigProcessor.withDefaults(config);
+		ConfigProcessorDriver driver = new ConfigProcessorDriver(processor);
+		driver.checkExpose = false;
+		driver.processConfig(config);
+
+		MoulConfigEditor<ChatTweaksMoulConfig> editor = new MoulConfigEditor<>(processor);
+		IMinecraft.INSTANCE.openWrappedScreen(editor);
 	}
 
-	private Component historyButtonText() {
-		Component state = Component.translatable(
-			ChatTweaksClient.extendedHistoryEnabled() ? "chattweaks.config.on" : "chattweaks.config.off"
-		);
-		return Component.translatable("chattweaks.config.extended_history", state);
+	public static final class ChatTweaksMoulConfig extends Config {
+		@Category(name = "Chat", desc = "ChatTweaks chat settings")
+		public final ChatCategory chat = new ChatCategory();
+
+		public ChatTweaksMoulConfig() {
+			this.chat.extendedChatHistory = ChatTweaksClient.extendedHistoryEnabled();
+			this.saveRunnables.add(() ->
+				ChatTweaksClient.setExtendedHistoryEnabled(this.chat.extendedChatHistory)
+			);
+		}
+
+		@Override
+		public StructuredText getTitle() {
+			return StructuredText.of("ChatTweaks");
+		}
+
+		@Override
+		public boolean isValidRunnable(int runnableId) {
+			return false;
+		}
 	}
 
-	@Override
-	protected void repositionElements() {
-		this.layout.arrangeElements();
-		FrameLayout.centerInRectangle(this.layout, this.getRectangle());
-	}
-
-	@Override
-	public void onClose() {
-		this.minecraft.setScreen(this.parent);
+	public static final class ChatCategory {
+		@ConfigOption(
+			name = "Extended Chat History",
+			desc = "Keep up to 1,000 chat messages instead of Minecraft's default 100."
+		)
+		@ConfigEditorBoolean
+		public boolean extendedChatHistory = true;
 	}
 }
