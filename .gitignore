@@ -1,7 +1,9 @@
 # gradle
 
 .gradle/
+.kotlin/
 build/
+versions/*/build/
 out/
 classes/
 
@@ -35,6 +37,12 @@ run/
 # java
 
 hs_err_*.log
+hs_err_pid*.log
 replay_*.log
 *.hprof
 *.jfr
+*.log
+
+# windows
+
+Thumbs.db
