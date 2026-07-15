@@ -1,6 +1,6 @@
 # ChatTweaks
 
-ChatTweaks is a client-side Fabric mod for Minecraft 26.1.2 that improves chat without replacing Minecraft's chat screen.
+ChatTweaks is a client-side Fabric mod for Minecraft 26.1.2 and 26.2 that improves chat without replacing Minecraft's chat screen.
 
 ## Features
 
@@ -11,7 +11,7 @@ ChatTweaks is a client-side Fabric mod for Minecraft 26.1.2 that improves chat w
 
 ## Requirements
 
-- Minecraft 26.1.2
+- Minecraft 26.1.2 or 26.2
 - Fabric Loader 0.19.3 or newer
 - Fabric API
 - Java 25
@@ -22,7 +22,19 @@ ChatTweaks is a client-side Fabric mod for Minecraft 26.1.2 that improves chat w
 ./gradlew build
 ```
 
-The distributable JAR is written to `build/libs`.
+The build compiles every target declared in `gradle/targets.properties`. The
+distributable JARs are written under `versions/*/build/libs` and include their
+Minecraft version in the filename.
+
+## Releases
+
+GitHub Actions does not run for normal commits or pull requests. A release is
+started only by pushing a `v*` tag that exactly matches `mod_version` in
+`gradle.properties`, for example `v1.0.2` for `mod_version=1.0.2`.
+
+One GitHub Release receives the JAR for every supported Minecraft version, while
+Modrinth receives a separate version record with exact game-version metadata for
+each JAR.
 
 ## License
 
