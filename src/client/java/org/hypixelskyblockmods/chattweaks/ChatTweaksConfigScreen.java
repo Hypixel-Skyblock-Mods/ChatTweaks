@@ -3,6 +3,7 @@ package org.hypixelskyblockmods.chattweaks;
 import io.github.notenoughupdates.moulconfig.Config;
 import io.github.notenoughupdates.moulconfig.annotations.Category;
 import io.github.notenoughupdates.moulconfig.annotations.ConfigEditorBoolean;
+import io.github.notenoughupdates.moulconfig.annotations.ConfigEditorKeybind;
 import io.github.notenoughupdates.moulconfig.annotations.ConfigOption;
 import io.github.notenoughupdates.moulconfig.annotations.ConfigOrder;
 import io.github.notenoughupdates.moulconfig.common.IMinecraft;
@@ -10,6 +11,7 @@ import io.github.notenoughupdates.moulconfig.common.text.StructuredText;
 import io.github.notenoughupdates.moulconfig.gui.MoulConfigEditor;
 import io.github.notenoughupdates.moulconfig.processor.ConfigProcessorDriver;
 import io.github.notenoughupdates.moulconfig.processor.MoulConfigProcessor;
+import org.lwjgl.glfw.GLFW;
 
 public final class ChatTweaksConfigScreen {
 	private ChatTweaksConfigScreen() {
@@ -32,10 +34,12 @@ public final class ChatTweaksConfigScreen {
 
 		public ChatTweaksMoulConfig() {
 			this.chat.chatPeek = ChatTweaksClient.chatPeekEnabled();
+			this.chat.peekKey = ChatTweaksClient.peekKeyCode();
 			this.chat.scrollChatPeek = ChatTweaksClient.peekScrollingEnabled();
 			this.chat.extendedChatHistory = ChatTweaksClient.extendedHistoryEnabled();
 			this.saveRunnables.add(() -> {
 				ChatTweaksClient.setChatPeekEnabled(this.chat.chatPeek);
+				ChatTweaksClient.setPeekKeyCode(this.chat.peekKey);
 				ChatTweaksClient.setPeekScrollingEnabled(this.chat.scrollChatPeek);
 				ChatTweaksClient.setExtendedHistoryEnabled(this.chat.extendedChatHistory);
 			});
@@ -53,13 +57,21 @@ public final class ChatTweaksConfigScreen {
 	}
 
 	public static final class ChatCategory {
-		@ConfigOrder(-20)
+		@ConfigOrder(-30)
 		@ConfigOption(
 			name = "Chat Peek",
 			desc = "Enable holding the Peek Chat key to view chat without opening it."
 		)
 		@ConfigEditorBoolean
 		public boolean chatPeek = true;
+
+		@ConfigOrder(-20)
+		@ConfigOption(
+			name = "Peek Chat Key",
+			desc = "The same binding shown in Minecraft's Controls menu."
+		)
+		@ConfigEditorKeybind(defaultKey = GLFW.GLFW_KEY_Z)
+		public int peekKey = GLFW.GLFW_KEY_Z;
 
 		@ConfigOrder(-10)
 		@ConfigOption(

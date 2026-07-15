@@ -81,6 +81,27 @@ public final class ChatTweaksClient implements ClientModInitializer {
 		config.save();
 	}
 
+	public static int peekKeyCode() {
+		return InputConstants.getKey(PEEK_CHAT.saveString()).getValue();
+	}
+
+	public static void setPeekKeyCode(int keyCode) {
+		InputConstants.Key key;
+		if (keyCode == InputConstants.UNKNOWN.getValue()) {
+			key = InputConstants.UNKNOWN;
+		} else if (keyCode >= 0 && keyCode <= 9) {
+			key = InputConstants.Type.MOUSE.getOrCreate(keyCode);
+		} else {
+			key = InputConstants.Type.KEYSYM.getOrCreate(keyCode);
+		}
+
+		if (!PEEK_CHAT.saveString().equals(key.getName())) {
+			PEEK_CHAT.setKey(key);
+			KeyMapping.resetMapping();
+			Minecraft.getInstance().options.save();
+		}
+	}
+
 	public static boolean peekScrollingEnabled() {
 		return config == null || config.scrollChatPeek;
 	}
