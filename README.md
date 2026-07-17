@@ -8,7 +8,7 @@ ChatTweaks is a client-side Fabric mod for Minecraft 26.1.2 and 26.2 that improv
 - Scroll through chat with the mouse wheel while holding the peek-chat key.
 - Keep up to 1,000 received and sent chat entries instead of Minecraft's default 100.
 - Open `/chattweaks` to enable or disable extended chat history. It is enabled by default.
-- The config Dashboard opens by default and shows the installed version plus whether a newer stable GitHub release is available.
+- The config Dashboard opens by default and shows the installed version. Its **Check** button can query GitHub Releases for a newer stable version; ChatTweaks does not make that request unless the button is pressed.
 
 ## Requirements
 

@@ -19,7 +19,6 @@ public final class ChatTweaksConfigScreen {
 	}
 
 	public static void open() {
-		ChatTweaksUpdateChecker.refresh(false);
 		ChatTweaksMoulConfig config = new ChatTweaksMoulConfig();
 		MoulConfigProcessor<ChatTweaksMoulConfig> processor = MoulConfigProcessor.withDefaults(config);
 		processor.registerConfigEditor(ConfigVersionStatus.class, (option, ignored) -> new VersionStatusEditor(option));
